@@ -19,7 +19,7 @@ public class IntegrityPlugin extends JavaPlugin {
 		try {
 			File Jar = GetLocation();
 			String inputFilePath = Jar.getParent() + File.separator + "data.csv";
-			List<String> list = ProcessNames(GetWhitelist(LoadDataRaw(inputFilePath)));
+			List<String> list = GetWhitelist(LoadDataRaw(inputFilePath));
 			for (OfflinePlayer player : Bukkit.getWhitelistedPlayers()) {
 				Boolean onList = false;
 				getLogger().info("Checking name " + player.getName());
@@ -60,20 +60,9 @@ public class IntegrityPlugin extends JavaPlugin {
 		List<String> ret = new ArrayList<>();
 		for (List<String> row : RawData) {
 			try {
-				ret.add(row.get(2));
+				ret.add(row.get(0).strip());
 			} catch (ArrayIndexOutOfBoundsException e) {
 				;
-			}
-		}
-		return ret;
-	}
-	
-	private List<String> ProcessNames(List<String> Data) {
-		List<String> ret = new ArrayList<>();
-		for (String value : Data) {
-			String[] values = value.split("[&/]");
-			for (String value2 : values) {
-				ret.add(value2.strip());
 			}
 		}
 		return ret;
